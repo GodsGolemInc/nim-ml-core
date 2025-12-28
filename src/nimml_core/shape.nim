@@ -3,7 +3,7 @@
 ## Provides Shape type with broadcasting semantics, stride computation,
 ## and contiguity checks.
 
-import std/[sequtils, strutils, algorithm]
+import std/[sequtils, strutils]
 
 type
   Shape* = object
