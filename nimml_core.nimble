@@ -1,5 +1,5 @@
 # Package
-version       = "0.0.2"
+version       = "0.0.3"
 author        = "jasagiri"
 description   = "Core ML types: DType, Shape, TensorRef, OpSpec, Graph IR"
 license       = "MIT"
@@ -14,3 +14,4 @@ task test, "Run tests":
   exec "nim c -r tests/test_dtype.nim"
   exec "nim c -r tests/test_shape.nim"
   exec "nim c -r tests/test_tensor.nim"
+  exec "nim c -r tests/test_ops.nim"

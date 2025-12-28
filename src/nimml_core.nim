@@ -4,13 +4,15 @@
 ## - DType: Data types with promotion rules
 ## - Shape: Multi-dimensional shapes with broadcasting
 ## - TensorRef: Content-addressed tensor references
-## - OpSpec: Operation specifications (v0.0.3)
+## - OpSpec: Operation specifications
 ## - Graph IR: Computation graph representation (v0.0.4)
 
 import nimml_core/dtype
 import nimml_core/shape
 import nimml_core/tensor
+import nimml_core/ops
 
 export dtype
 export shape
 export tensor
+export ops
