@@ -228,3 +228,90 @@ suite "Metadata":
 
     check tr.hasMeta("name") == true
     check tr.hasMeta("other") == false
+
+suite "Hash256 Additional Coverage":
+  test "parse hash invalid length":
+    expect TensorError:
+      discard parseHash256("0102030405")  # Too short
+
+  test "parse hash invalid character":
+    expect TensorError:
+      discard parseHash256("zz0102030405060708090a0b0c0d0e0f101112131415161718191a1b1c1d1e")
+
+  test "hash for hash table":
+    var h: Hash256
+    for i in 0 ..< 32:
+      h[i] = byte(i)
+    let hashVal = hash(h)
+    check hashVal != 0
+
+  test "uppercase hex parsing":
+    let s = "000102030405060708090A0B0C0D0E0F101112131415161718191A1B1C1D1E1F"
+    let h = parseHash256(s)
+    check h[10] == 0x0A
+    check h[15] == 0x0F
+
+suite "TensorData Additional Coverage":
+  test "column major strides":
+    let td = newTensorData(newShape(2, 3), dtFloat32, mlColumnMajor)
+    check td.layout == mlColumnMajor
+    check td.strides == @[1, 2]
+
+  test "fill float64":
+    let td = newTensorData(newShape(3), dtFloat64)
+    td.fillFloat64(2.5)
+    let arr = td.asFloat64
+    for i in 0 ..< 3:
+      check arr[i] == 2.5
+
+  test "fill wrong dtype raises":
+    let td = newTensorData(newShape(3), dtInt32)
+    expect TensorError:
+      td.fillFloat32(1.0)
+
+  test "as wrong dtype raises":
+    let td = newTensorData(newShape(3), dtFloat32)
+    expect TensorError:
+      discard td.asFloat64
+
+    let td2 = newTensorData(newShape(3), dtFloat64)
+    expect TensorError:
+      discard td2.asInt32
+
+    let td3 = newTensorData(newShape(3), dtInt32)
+    expect TensorError:
+      discard td3.asInt64
+
+  test "asInt64":
+    let td = newTensorData(newShape(3), dtInt64)
+    let arr = td.asInt64
+    arr[0] = 100'i64
+    check arr[0] == 100'i64
+
+suite "TensorRef Additional Coverage":
+  test "create with known hash":
+    var h: Hash256
+    for i in 0 ..< 32:
+      h[i] = byte(i)
+    let tr = newTensorRef(h, newShape(2, 3), dtFloat32)
+    check tr.hash == h
+    check tr.hash.isZero == false
+
+  test "hash for hash table":
+    let td = newTensorData(newShape(2, 3), dtFloat32)
+    let tr = newTensorRef(td)
+    let hashVal = hash(tr)
+    check hashVal != 0
+
+  test "hash nil tensorref":
+    let tr: TensorRef = nil
+    check hash(tr) == 0
+
+  test "nil tensorref string":
+    let tr: TensorRef = nil
+    check $tr == "TensorRef(nil)"
+
+  test "get primary location none":
+    let tr = newTensorRef(newShape(2, 3), dtFloat32)
+    tr.addLocation(LocationTag(workerId: "w1", storePath: "/data", isPrimary: false))
+    check tr.getPrimaryLocation().isNone

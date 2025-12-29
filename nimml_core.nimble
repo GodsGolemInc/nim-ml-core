@@ -1,8 +1,8 @@
 # Package
-version       = "0.0.3"
+version       = "0.0.4"
 author        = "jasagiri"
 description   = "Core ML types: DType, Shape, TensorRef, OpSpec, Graph IR"
-license       = "MIT"
+license       = "Apache-2.0"
 srcDir        = "src"
 
 # Dependencies
@@ -15,3 +15,4 @@ task test, "Run tests":
   exec "nim c -r tests/test_shape.nim"
   exec "nim c -r tests/test_tensor.nim"
   exec "nim c -r tests/test_ops.nim"
+  exec "nim c -r tests/test_ir.nim"

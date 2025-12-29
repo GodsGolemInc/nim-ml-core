@@ -102,3 +102,58 @@ suite "Type Casting":
     check toNimType(dtFloat32) == "float32"
     check toNimType(dtInt64) == "int64"
     check toNimType(dtBool) == "bool"
+
+suite "DType Additional Coverage":
+  test "string representation":
+    check $dtFloat32 == "float32"
+    check $dtInt64 == "int64"
+    check $dtBool == "bool"
+    check $dtComplex128 == "complex128"
+
+  test "dtypeSize all types":
+    check dtypeSize(dtUInt16) == 2
+    check dtypeSize(dtUInt32) == 4
+    check dtypeSize(dtUInt64) == 8
+
+  test "category all types":
+    check category(dtFloat16) == dcFloat
+    check category(dtBFloat16) == dcFloat
+    check category(dtFloat64) == dcFloat
+    check category(dtInt8) == dcInteger
+    check category(dtInt16) == dcInteger
+    check category(dtUInt8) == dcUnsigned
+    check category(dtUInt16) == dcUnsigned
+    check category(dtUInt64) == dcUnsigned
+    check category(dtComplex128) == dcComplex
+
+  test "isFloating all float types":
+    check isFloating(dtBFloat16) == true
+    check isFloating(dtFloat64) == true
+
+  test "isSigned complex types":
+    check isSigned(dtComplex64) == true
+    check isSigned(dtComplex128) == true
+
+  test "mayLosePrecision float16 to bfloat16":
+    check mayLosePrecision(dtFloat16, dtBFloat16) == true
+
+  test "toNimType all types":
+    check toNimType(dtFloat16) == "float16"
+    check toNimType(dtBFloat16) == "bfloat16"
+    check toNimType(dtFloat64) == "float64"
+    check toNimType(dtInt8) == "int8"
+    check toNimType(dtInt16) == "int16"
+    check toNimType(dtInt32) == "int32"
+    check toNimType(dtUInt8) == "uint8"
+    check toNimType(dtUInt16) == "uint16"
+    check toNimType(dtUInt32) == "uint32"
+    check toNimType(dtUInt64) == "uint64"
+    check toNimType(dtComplex64) == "Complex32"
+    check toNimType(dtComplex128) == "Complex64"
+
+  test "promote unsigned same category":
+    check promote(dtUInt8, dtUInt32) == dtUInt32
+    check promote(dtUInt32, dtUInt8) == dtUInt32
+
+  test "promote uint64 with float":
+    check promote(dtUInt64, dtFloat32) == dtFloat64
