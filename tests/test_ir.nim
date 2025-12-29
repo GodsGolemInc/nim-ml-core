@@ -2,11 +2,11 @@
 
 import unittest
 import std/[json, options, strutils, tables]
-import ../src/nimml_core/dtype
-import ../src/nimml_core/shape
-import ../src/nimml_core/tensor
-import ../src/nimml_core/ops
-import ../src/nimml_core/ir
+import ../src/ml_core/dtype
+import ../src/ml_core/shape
+import ../src/ml_core/tensor
+import ../src/ml_core/ops
+import ../src/ml_core/ir
 
 suite "Node Creation":
   test "input node":

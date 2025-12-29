@@ -2,9 +2,9 @@
 
 import unittest
 import std/[options, tables, strutils]
-import ../src/nimml_core/dtype
-import ../src/nimml_core/shape
-import ../src/nimml_core/tensor
+import ../src/ml_core/dtype
+import ../src/ml_core/shape
+import ../src/ml_core/tensor
 
 suite "Hash256":
   test "zero hash":

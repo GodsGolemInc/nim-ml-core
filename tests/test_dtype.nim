@@ -1,7 +1,7 @@
 ## Tests for dtype module
 
 import unittest
-import ../src/nimml_core/dtype
+import ../src/ml_core/dtype
 
 suite "DType":
   test "dtypeSize returns correct sizes":

@@ -1,7 +1,7 @@
 ## Tests for shape module
 
 import unittest
-import ../src/nimml_core/shape
+import ../src/ml_core/shape
 
 suite "Shape Basics":
   test "newShape creates shape":

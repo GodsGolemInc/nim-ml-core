@@ -7,11 +7,11 @@
 ## - OpSpec: Operation specifications
 ## - Graph IR: Computation graph representation
 
-import nimml_core/dtype
-import nimml_core/shape
-import nimml_core/tensor
-import nimml_core/ops
-import nimml_core/ir
+import ml_core/dtype
+import ml_core/shape
+import ml_core/tensor
+import ml_core/ops
+import ml_core/ir
 
 export dtype
 export shape
