@@ -1,5 +1,5 @@
 # Package
-version       = "0.0.4"
+version       = "0.0.5"
 author        = "jasagiri"
 description   = "Core ML types: DType, Shape, TensorRef, OpSpec, Graph IR"
 license       = "Apache-2.0"
