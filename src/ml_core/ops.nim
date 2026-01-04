@@ -12,6 +12,7 @@ type
     ocUnary       # Single input
     ocBinary      # Two inputs
     ocReduction   # Reduce dimensions
+    ocSort        # Sort/selection ops
     ocMatrix      # Matrix operations
     ocNeural      # Neural network ops
     ocNormalization
@@ -84,6 +85,14 @@ type
     opAny = "any"
     opVariance = "variance"
     opStd = "std"
+    opNorm = "norm"              # Lp norm (p=1,2,inf)
+
+    # Sort/Selection ops
+    opSort = "sort"              # Sort tensor
+    opArgsort = "argsort"        # Indices that would sort
+    opKthValue = "kthvalue"      # k-th smallest value
+    opTopK = "topk"              # Top k values and indices
+    opMedian = "median"          # Median value
 
     # Matrix ops
     opMatMul = "matmul"
@@ -176,6 +185,13 @@ type
     opTriu = "triu"
     opDiag = "diag"
     opEye = "eye"
+    opZerosLike = "zeros_like"   # Zeros with same shape/dtype
+    opOnesLike = "ones_like"     # Ones with same shape/dtype
+    opRandLike = "rand_like"     # Random uniform with same shape
+    opRandnLike = "randn_like"   # Random normal with same shape
+    opFullLike = "full_like"     # Fill value with same shape
+    opEmpty = "empty"            # Uninitialized tensor
+    opEmptyLike = "empty_like"   # Uninitialized with same shape
 
   OpSpec* = object
     ## Specification for a single operation
@@ -198,7 +214,8 @@ proc category*(op: OpKind): OpCategory =
   of opAdd .. opMin: ocBinary
   of opEq .. opGe: ocComparison
   of opAnd .. opNot: ocLogical
-  of opSum .. opStd: ocReduction
+  of opSum .. opNorm: ocReduction
+  of opSort .. opMedian: ocSort
   of opMatMul .. opEinsum: ocMatrix
   of opRelu .. opHardswish: ocActivation
   of opBatchNorm .. opRmsNorm: ocNormalization
@@ -206,7 +223,7 @@ proc category*(op: OpKind): OpCategory =
   of opMseLoss .. opKlDivLoss: ocLoss
   of opReshape .. opPad: ocMemory
   of opAllReduce .. opAllToAll: ocCollective
-  of opCast .. opEye: ocMisc
+  of opCast .. opEmptyLike: ocMisc
 
 proc `$`*(op: OpKind): string =
   ## String representation
@@ -224,6 +241,7 @@ proc numInputs*(op: OpKind): int =
   of ocLogical:
     if op == opNot: 1 else: 2
   of ocReduction: 1
+  of ocSort: 1  # Sort operations take single tensor
   of ocMatrix:
     case op
     of opMatMul, opBatchMatMul, opDot, opOuter: 2
