@@ -3,7 +3,7 @@
 ## Exports all CPU kernel implementations for tensor operations.
 ## These provide actual computation for ml_core operations.
 
-import cpu/[arithmetic, compare, reduce, sort, select, reshape, concat, index, matmul, broadcast]
+import cpu/[arithmetic, compare, reduce, sort, select, reshape, concat, index, matmul, broadcast, conv, norm, pooling, activation]
 
 export arithmetic
 export compare
@@ -15,3 +15,7 @@ export concat
 export index
 export matmul
 export broadcast
+export conv
+export norm
+export pooling
+export activation
